@@ -2,7 +2,7 @@
 ##Methods which performance well in real world regression issues
 
  ```
-Autogluon
+#Autogluon
 python3 -m pip install -U pip
 python3 -m pip install -U setuptools wheel
 #for CPU 
