@@ -10,9 +10,8 @@ python3 -m pip install -U "mxnet<2.0.0"
 #for GPU
 python3 -m pip install -U "mxnet_cu101<2.0.0"
 python3 -m pip install autogluon
- ```
 [The link for Autogluon](https://github.com/awslabs/autogluon)
-
+ ```
 
 `h20`
 
