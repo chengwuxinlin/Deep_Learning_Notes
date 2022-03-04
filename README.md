@@ -14,7 +14,7 @@ python3 -m pip install autogluon
 [The link for Autogluon](https://github.com/awslabs/autogluon)
 
  ```
-#h20
+#h2o
  ```
  [The link for h20](https://www.h2o.ai/products/h2o/)
  
