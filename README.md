@@ -18,6 +18,9 @@ python3 -m pip install autogluon
 This is also a auto machine learning tools
  ```
  
+ 
+ [The link for random forest](https://en.wikipedia.org/wiki/Random_forest)
+ 
 ```
 #random forest(This method does not belong to deep learning but it works good for some regression issues)
 pseudocode: 1. select random subsets from a dataset
