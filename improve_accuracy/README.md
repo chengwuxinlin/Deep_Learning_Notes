@@ -1,4 +1,4 @@
-# improve_accuracy
+# image classification
 ## data preprocessing
 
 [data augmentation](https://en.wikipedia.org/wiki/Data_augmentation)
