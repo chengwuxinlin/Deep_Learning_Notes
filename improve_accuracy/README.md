@@ -27,5 +27,6 @@ Adam will not give you the best result but it is not so sensitive to various hyp
  ```
 
 ## object detection
-### Faster RCNN
+### Faster RCNN & mask RCNN
 [Faster RCNN](https://arxiv.org/abs/1506.01497)
+[mask RCNN](https://arxiv.org/abs/1703.06870)
