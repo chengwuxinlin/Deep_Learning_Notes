@@ -28,3 +28,4 @@ Adam will not give you the best result but it is not so sensitive to various hyp
 
 ## object detection
 ### Faster RCNN
+[Faster RCNN](https://arxiv.org/abs/1506.01497)
