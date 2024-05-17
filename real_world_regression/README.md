@@ -4,28 +4,32 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define a square matrix
-A = np.array([[4, 1], 
-              [2, 3]])
+# Define a symmetric matrix (graph adjacency matrix)
+A = np.array([[4, 1, 2], 
+              [1, 3, 0], 
+              [2, 0, 3]])
 
 # Calculate eigenvalues and eigenvectors
 eigenvalues, eigenvectors = np.linalg.eig(A)
 
 # Plot the eigenvectors
-origin = [0], [0]  # Origin point for the vectors
-
 fig, ax = plt.subplots()
-ax.quiver(*origin, eigenvectors[0, :], eigenvectors[1, :], color=['r', 'b'], scale=5)
+origin = np.zeros((2, eigenvectors.shape[1]))  # Origin points for the vectors
+
+# Plot each eigenvector
+for i in range(eigenvectors.shape[1]):
+    ax.quiver(*origin[:, i], eigenvectors[0, i], eigenvectors[1, i], scale=3, color=['r', 'b', 'g'][i], label=f'Eigenvalue: {eigenvalues[i]:.2f}')
+
 ax.set_xlim([-1, 1])
 ax.set_ylim([-1, 1])
 
 # Plot eigenvalues as points
 for i, eig in enumerate(eigenvalues):
-    ax.plot(eigenvectors[0, i], eigenvectors[1, i], 'o', label=f'Eigenvalue: {eig:.2f}')
+    ax.plot(eigenvectors[0, i], eigenvectors[1, i], 'o', color=['r', 'b', 'g'][i])
 
-plt.axhline(0, color='black',linewidth=0.5)
-plt.axvline(0, color='black',linewidth=0.5)
-plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
+plt.axhline(0, color='black', linewidth=0.5)
+plt.axvline(0, color='black', linewidth=0.5)
+plt.grid(color='gray', linestyle='--', linewidth=0.5)
 plt.legend()
 plt.title('Eigenvectors')
 plt.show()
