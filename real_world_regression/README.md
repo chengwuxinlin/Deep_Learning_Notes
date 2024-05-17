@@ -1,7 +1,59 @@
 # Deep_Learning_Notes
 ## Methods which performance well in real world regression issues
 
+```
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense, Lambda
+from tensorflow.keras.models import Model
+from tensorflow.keras.losses import binary_crossentropy
+from tensorflow.keras import backend as K
 
+# Define sampling function
+def sampling(args):
+    z_mean, z_log_var = args
+    batch = K.shape(z_mean)[0]
+    dim = K.int_shape(z_mean)[1]
+    epsilon = K.random_normal(shape=(batch, dim))
+    return z_mean + K.exp(0.5 * z_log_var) * epsilon
+
+# Define the encoder
+input_dim = 13000
+latent_dim = 500
+
+inputs = Input(shape=(input_dim,))
+h = Dense(512, activation='relu')(inputs)
+h = Dense(256, activation='relu')(h)
+z_mean = Dense(latent_dim)(h)
+z_log_var = Dense(latent_dim)(h)
+
+# Sampling layer
+z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+
+# Define the decoder
+decoder_h = Dense(256, activation='relu')
+decoder_h1 = Dense(512, activation='relu')
+decoder_mean = Dense(input_dim, activation='sigmoid')
+
+h_decoded = decoder_h(z)
+h_decoded = decoder_h1(h_decoded)
+x_decoded_mean = decoder_mean(h_decoded)
+
+# Define the VAE model
+vae = Model(inputs, x_decoded_mean)
+
+# Define the loss
+xent_loss = binary_crossentropy(inputs, x_decoded_mean)
+kl_loss = -0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
+vae_loss = K.mean(xent_loss + kl_loss)
+
+vae.add_loss(vae_loss)
+vae.compile(optimizer='rmsprop')
+
+# Train the model
+vae.fit(X_train, X_train, epochs=50, batch_size=256, validation_data=(X_test, X_test))
+
+
+```
 
 ```
 import tensorflow as tf
