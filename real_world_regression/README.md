@@ -1,6 +1,6 @@
 # Deep_Learning_Notes
 ## Methods which performance well in real world regression issues
-
+```
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -29,7 +29,7 @@ plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
 plt.legend()
 plt.title('Eigenvectors')
 plt.show()
-
+```
 
 ```
 import tensorflow as tf
