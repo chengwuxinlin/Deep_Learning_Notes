@@ -1,0 +1,87 @@
+It seems like there might be a conflict or an issue with the driver installation. Let's go through a detailed troubleshooting process to fix this:
+
+### Step 1: Remove All CUDA and NVIDIA Driver Installations
+Ensure that all CUDA and NVIDIA driver installations are completely removed to start fresh.
+
+1. **Remove CUDA:**
+   ```bash
+   sudo apt-get --purge remove "*cublas*" "cuda*" "nsight*" "*nvidia*"
+   ```
+
+2. **Remove NVIDIA Drivers:**
+   ```bash
+   sudo apt-get --purge remove "*nvidia*"
+   ```
+
+### Step 2: Add NVIDIA Repository and Install Latest Driver
+Add the NVIDIA repository to ensure you get the latest driver.
+
+1. **Add the NVIDIA repository:**
+   ```bash
+   sudo add-apt-repository ppa:graphics-drivers/ppa
+   sudo apt-get update
+   ```
+
+2. **Install the latest driver:**
+   Check for the recommended driver version:
+   ```bash
+   ubuntu-drivers devices
+   ```
+   Install the recommended driver (replace `nvidia-driver-<version>` with the version recommended):
+   ```bash
+   sudo apt-get install nvidia-driver-<version>
+   ```
+
+3. **Reboot the system:**
+   ```bash
+   sudo reboot
+   ```
+
+### Step 3: Install CUDA 11.7
+1. **Download CUDA 11.7:**
+   Download the CUDA 11.7 installer from the [NVIDIA website](https://developer.nvidia.com/cuda-11.7.0-download-archive).
+
+2. **Install CUDA 11.7:**
+   Follow the installation instructions provided on the website. Ensure you select the option to install the driver if prompted.
+
+### Step 4: Verify Installations
+After installation and rebooting the system, verify both the driver and CUDA installation:
+
+1. **Check NVIDIA driver:**
+   ```bash
+   nvidia-smi
+   ```
+   This should show the GPU details and the driver version.
+
+2. **Check CUDA version:**
+   ```bash
+   nvcc --version
+   ```
+   This should show CUDA 11.7.
+
+### Step 5: Check Environment Variables
+Ensure that the environment variables are correctly set for CUDA 11.7:
+
+1. **Edit your `~/.bashrc` or `~/.profile`:**
+   ```bash
+   export PATH=/usr/local/cuda-11.7/bin:$PATH
+   export LD_LIBRARY_PATH=/usr/local/cuda-11.7/lib64:$LD_LIBRARY_PATH
+   ```
+
+2. **Source the file to apply the changes:**
+   ```bash
+   source ~/.bashrc
+   ```
+
+### Step 6: Check dmesg Logs
+Check the system logs for any issues related to NVIDIA drivers:
+
+```bash
+dmesg | grep -i nvidia
+```
+
+### Additional Checks
+- **BIOS Settings:** Ensure that the GPU is enabled in the BIOS settings.
+- **Secure Boot:** If Secure Boot is enabled, try disabling it as it can interfere with NVIDIA drivers.
+
+By following these steps, you should be able to resolve the conflict and have your system recognize the GPU properly. If you encounter any errors during these steps, please share the error messages for further assistance.
