@@ -2,15 +2,16 @@
 ## Methods which performance well in real world regression issues
 
 ```
-import numpy as np
-from gudhi import RipsComplex
-from gudhi import SimplexTree
 
-# Generate some random data points
-data = np.random.random((100, 2))
+import numpy as np
+from gudhi import RipsComplex, SimplexTree
+
+# Generate a random distance matrix
+dist_matrix = np.random.random((100, 100))
+dist_matrix = (dist_matrix + dist_matrix.T) / 2  # Symmetrize the matrix
 
 # Create a Rips complex
-rips_complex = RipsComplex(points=data, max_edge_length=2.0)
+rips_complex = RipsComplex(distance_matrix=dist_matrix, max_edge_length=np.max(dist_matrix))
 
 # Create a simplex tree
 simplex_tree = rips_complex.create_simplex_tree(max_dimension=2)
@@ -18,32 +19,40 @@ simplex_tree = rips_complex.create_simplex_tree(max_dimension=2)
 # Compute persistence
 simplex_tree.persistence()
 
-# Extract the persistence diagrams
-persistence_diagrams = simplex_tree.persistence_intervals_in_dimension(0), simplex_tree.persistence_intervals_in_dimension(1)
+# Use the first persistence diagram
+d = np.array(simplex_tree.persistence_intervals_in_dimension(0))
 
-# Do something with the persistence diagrams
-print(persistence_diagrams)
+# Calculate the sum of lifetimes
+sum_of_lifetimes = (d[:,1] - d[:,0]).sum()
 
-
+print(sum_of_lifetimes)
 
 import numpy as np
 import dionysus as d
 
-# Generate some random data points
-data = np.random.random((100, 2))
+# Generate a random distance matrix
+dist_matrix = np.random.random((100, 100))
+dist_matrix = (dist_matrix + dist_matrix.T) / 2  # Symmetrize the matrix
 
-# Create a filtration of Rips complexes
-filtration = d.fill_rips(data, 2, 2.0)
+# Convert the distance matrix to a list of lists
+distance_list = dist_matrix.tolist()
+
+# Create a filtration of Rips complexes using the distance matrix
+filtration = d.fill_rips(distance_list, 2, np.max(dist_matrix))
 
 # Compute persistence
 m = d.homology_persistence(filtration)
 diagrams = d.init_diagrams(m, filtration)
 
-# Convert to a format similar to other libraries (list of arrays)
-persistence_diagrams = [np.array([(pt.birth, pt.death) for pt in dgm]) for dgm in diagrams]
+# Use the first persistence diagram
+dgm = diagrams[0]
+d = np.array([(pt.birth, pt.death) for pt in dgm])
 
-# Do something with the persistence diagrams
-print(persistence_diagrams)
+# Calculate the sum of lifetimes
+sum_of_lifetimes = (d[:,1] - d[:,0]).sum()
+
+print(sum_of_lifetimes)
+
 
 
 ```
